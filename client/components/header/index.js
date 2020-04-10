@@ -1,9 +1,5 @@
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import Button from 'react-bootstrap/Button'
 import Link from 'next/link'
 import Router from 'next/router'
 import { signout, isAuth } from '../../actions/auth'
@@ -16,44 +12,82 @@ Router.onRouteChangeError = url => NProgress.done()
 
 const Header = () => {
     return (
-        <Navbar bg="light" expand="lg">
-            <Link href="/">
-                <a className="navbar-brand">{APP_NAME}</a>
-            </Link>
-            <Navbar.Toggle aria-controls="basic-navbar-nav justify-content-end" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav>
-                    {
-                        isAuth() && <NavDropdown title={`Hi, ${isAuth().name}`} id="basic-nav-dropdown">
-                        <Link href="/user">
-                                <a className="dropdown-item" role="button">Dashboard</a>
+        <header className="header">
+            <div className="grid wide">
+                <nav className="navbar">
+                    <div className="header__logo">
+                        <Link href="/blogs">
+                            <a className="header__logo-title">{APP_NAME}</a>
                         </Link>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#logout" onClick={
-                            () => {
-                                signout(()=> Router.push('/'))
-                            }
-                        }>
-                            Logout
-                        </NavDropdown.Item>
-                    </NavDropdown>
-                    }
-                    {
-                        !isAuth() && (
-                            <>
-                            <Link href="/signup">
-                            <a className="nav-link" role="button">Đăng ký</a>
-                            </Link>
-                            <Link href="/signin">
-                                <a className="nav-link" role="button">Đăng nhập</a>
-                            </Link>
-                            </>
-                        )
-                    }
-
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
+                    </div>
+                    <ul className="header__menu">
+                            <li className="header__menu-item">
+                                <Link href="/">
+                                    <a className="header__menu-link">Trang chủ</a>
+                                </Link>
+                            </li>
+                            <li className="header__menu-item">
+                                <Link href="/">
+                                    <a className="header__menu-link">Thành viên</a>
+                                </Link>
+                            </li>
+                            <li className="header__menu-item">
+                                <Link href="/">
+                                    <a className="header__menu-link">Liên hệ</a>
+                                </Link>
+                            </li>
+                        {
+                            !isAuth() && (
+                                <>
+                                <li className="header__menu-item">
+                                    <Link href="/signup">
+                                    <a className="header__menu-link">Đăng ký</a>
+                                    </Link>
+                                </li>
+                                <li className="header__menu-item">
+                                    <Link href="/signin">
+                                    <a className="header__menu-link">Đăng nhập</a>
+                                    </Link>
+                                </li>
+                                </>
+                            )
+                        }
+                        {
+                            isAuth() && <li className="header__menu-item">
+                                <span className="header__menu-link">
+                                    {`Hi, ${isAuth().name}`}
+                                </span>
+                                <ul className="header__childmenu">
+                                    <li className="header__childmenu-item">
+                                        <Link href="/user">
+                                            <a className="header__childmenu-link">Profile</a>
+                                        </Link>
+                                    </li>
+                                    {isAuth().role === 1 && <li className="header__childmenu-item">
+                                        <Link href="/admin">
+                                            <a className="header__childmenu-link">Admin</a>
+                                        </Link>
+                                    </li>}
+                                    <li className="header__childmenu-item">
+                                            <span 
+                                            className="header__childmenu-link" 
+                                            onClick={
+                                                () => {
+                                                    signout(()=> Router.push('/'))
+                                                }
+                                            }
+                                            >Logout
+                                            </span>
+                                    </li>
+                                </ul>
+                            
+                            
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </header>
     );
 };
 

@@ -6,7 +6,9 @@ import { getCategories } from '../../actions/category'
 import { getTags } from '../../actions/tag'
 import { create } from '../../actions/blog'
 import '../../node_modules/react-quill/dist/quill.snow.css'
+import { quillformats, quillmodules } from '../../helpers/reactQuill'
 const ReactQuill = dynamic(()=> import('react-quill'), {ssr: false});
+
 const BlogCreate = ({router}) => {
     const [categories, setCategories] = useState([])
     const [tags, setTags] = useState([])
@@ -54,18 +56,25 @@ const BlogCreate = ({router}) => {
     const handleSubmit = e => {                
         e.preventDefault()
         console.log(formData);
-        // create(formData, token)
-        //     .then(data => {
-        //         setValues({
-        //             ...values,
-        //             error:'',
-        //             success: "Publish success"
-        //         })
-        //         setBody('')
-        //         setCheckedTag('')
-        //         setChecked('')
-        //     })
-        //     .catch(err => setValues({...values, error: err}))
+        create(formData, token)
+            .then(data => {
+                if(data.error) {
+                    setValues({
+                        ...values,
+                        error: data.error
+                    })
+                } else {
+                    setValues({
+                        ...values,
+                        error:'',
+                        title: "",
+                        success: "Publish success"
+                    })
+                    setBody('')
+                    setCheckedTag('')
+                    setChecked('')
+                }
+            })
     }
     const handleChange = name => e => {
         const value = name === 'photo' ? e.target.files[0] : e.target.value
@@ -100,8 +109,8 @@ const BlogCreate = ({router}) => {
                 </div>
                 <div className="form-group">
                     <ReactQuill
-                    modules={BlogCreate.modules}
-                    formats={BlogCreate.formats}
+                    modules={quillmodules}
+                    formats={quillformats}
                     value={body}
                     placeholder="Type songthing"
                     onChange={handleBody}
@@ -169,13 +178,29 @@ const BlogCreate = ({router}) => {
             })
         )
     }
+    const showError = () => {
+        return(
+            <div className="alert alert-danger">
+                {error}
+            </div>
+        )
+    }
+    const showSuccess = () => {
+        return(
+            <div className="alert alert-success">
+                {success}
+            </div>
+        )
+    }
     return(
         <>
             <div className="row">
-                <div className="col-md-8">
+                <div className="col s-12 m-8 l-8">
                     {createBlogForm()}
+                    {error && showError()}
+                    {success && showSuccess()}
                 </div>
-                <div className="col-md-4">
+                <div className="col s-12 m-4 l-4">
                     <div className="form-group pb-2">
                         <h5>Featured image</h5>
                         <hr/>
@@ -215,31 +240,3 @@ const BlogCreate = ({router}) => {
     )
 }
 export default withRouter(BlogCreate);
-
-BlogCreate.modules = {
-    toolbar: [
-        [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
-        [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image', 'video'],
-        ['clean'],
-        ['code-block']
-    ]
-};
-BlogCreate.formats = [
-    'header',
-    'font',
-    'size',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'link',
-    'image',
-    'video',
-    'code-block'
-];

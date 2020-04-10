@@ -7,16 +7,16 @@ const CategoryTag = () => {
     return (
         <Layout>
             <Admin>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-12 pt-5 pb-4">
-                        <h2> Manage Categories and tag</h2>
-                        </div>
-                        <div className="col-md-6">
+                <div className="admin-page">
+                    <div className="grid wide">
+                        <h2 className="admin-page-title"> Manage Categories and tag</h2>
+                        <div className="row">
+                        <div className="col s-12 m-6 l-6">
                             <Category />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col s-12 m-6 l-6">
                             <Tag />
+                        </div>
                         </div>
                     </div>
                 </div>

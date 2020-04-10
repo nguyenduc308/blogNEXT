@@ -4,10 +4,12 @@ import SignUpComponent from '../components/auth/signup'
 const SignUp = () => {
     return (
         <Layout>
-            <h2 className='text-center mt-4'>Đăng ký</h2>
-            <div className="row justify-content-center">
-                <div className="col-10 col-md-6">
-                    <SignUpComponent />
+           <div className="grid wide">
+                <div className="user-actions-page">
+                    <div className="user-actions-box">
+                        <h2 className='box__title'>Đăng ký</h2>
+                        <SignUpComponent />
+                    </div>
                 </div>
             </div>
         </Layout>

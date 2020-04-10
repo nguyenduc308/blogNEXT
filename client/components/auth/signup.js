@@ -2,9 +2,6 @@ import { useState, useEffect } from 'react'
 import { signup, isAuth } from '../../actions/auth'
 import Link from 'next/link'
 import Router from 'next/router'
-const style = {
-    padding: '40px'
-}
 const SignUpComponent = () => {
     const [values, setValues] = useState({
         name: '',
@@ -55,13 +52,13 @@ const SignUpComponent = () => {
             [name]: e.target.value
         })
     }
-    const showError = () => (error ? <div style={style}><p className="alert alert-danger">{error}</p></div> : '')
-    const showMessage = () => (message ? <div style={style}><p className="alert alert-success">{message}</p></div> : '')
+    const showError = () => (error ? <div><p className="alert alert-danger">{error}</p></div> : '')
+    const showMessage = () => (message ? <div><p className="alert alert-success">{message}</p></div> : '')
     return (
         <>
         {showError()}
         {showMessage()}
-        {showForm && <form onSubmit={handleSubmit} style={style}>
+        {showForm && <form onSubmit={handleSubmit}>
             <div className="form-group">
                 <input 
                 type="text" 

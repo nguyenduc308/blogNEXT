@@ -7,9 +7,11 @@ const Blog = () => {
     return (
         <Layout>
             <Admin>
-                <div className="container-fluid mt-5">
-                        <h2> Add new Post</h2>
-                        <BlogCreate />
+                <div className="admin-page">
+                        <div className="grid wide">
+                            <h2 className="admin-page-title"> Add new Post</h2>
+                            <BlogCreate />
+                        </div>
                 </div>
             </Admin>
         </Layout>

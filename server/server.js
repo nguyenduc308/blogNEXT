@@ -3,7 +3,6 @@ const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const cors = require('cors')
 const mongoose = require('mongoose')
 
 const app = express()
@@ -21,9 +20,12 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 // cors
-if(process.env.NODE_ENV === 'development') {
-    app.use(cors({origin: `${process.env.CLIENT_URL}`}))
-}
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); 
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
+    next();
+  });
 
 //routes
 app.use('/api', require('./routes'))
